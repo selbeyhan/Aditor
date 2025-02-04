@@ -1,4 +1,27 @@
 Top bar
+  File
+    New
+    Open
+    Save
+    Close
+    Rename
+    Properties
+      Do files have properties like that? Authers Organization Copyright Title Subject
+    Export As PDF
+    Print
+  Edit
+    Paste
+    Paste and match style
+    Find
+    Find and Replace
+  Format
+    Font
+    Text
+  View
+  Window
+    Zoom
+  Settings
+
 Line numbers on the left
 
 Vim Basic vim motions
