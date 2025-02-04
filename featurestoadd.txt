@@ -1,0 +1,4 @@
+Top bar
+Line numbers on the left
+
+Vim Basic vim motions
