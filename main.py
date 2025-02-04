@@ -28,14 +28,15 @@ def savefile(window, text_edit):
 
     window.title(f"File Save: {filepath}")
 
-def selected_option(navbar_option, sub_option, file_dropdown):
-    if option == "Open":
-        file_dropdown.set("File")
+def select_dropdown(navbar_option, sub_option, file_dropdown):
+    file_dropdown.set(navbar_option)
+    if sub_option == "Open":
         openfile(window, text_edit)
-    elif option == "Save":
-        file_dropdown.set("File")
+    elif sub_option == "Save":
         savefile(window, text_edit)
 
+def settings():
+    pass
 
 def main():
     global window, text_edit
@@ -49,29 +50,44 @@ def main():
 
     navbar = tk.Frame(window, bd=2)
 
-    # Drop-down menu
-    file_dropdown = tk.StringVar(navbar)
-    file_dropdown_options = ("New", "Open", "Save", "Save and Close", "Rename", "Properties")
-    file_dropdown.set("File")  # Default text
-    file_dropdown_options = tk.OptionMenu(navbar, file_dropdown, *file_dropdown_options, command=lambda option: selected_option("File", option, file_dropdown))
-    
-    edit_dropdown = tk.StringVar(navbar)
-    edit_dropdown_option = ("Paste", "Paste and match style", "Find", "Find and Replace")
+    # ===== File Drop-down =====
+    file_dropdown_var = tk.StringVar(navbar)
+    file_options = ("New", "Open", "Save", "Save and Close", "Rename", "Properties")
+    file_dropdown_var.set("File")  # Default text
+    file_dropdown = tk.OptionMenu(navbar, file_dropdown_var, *file_options, command=lambda option: select_dropdown("File", option, file_dropdown_var))
+    file_dropdown.grid(row=0, column=0, padx=5, sticky="ew")
 
-    format_dropdown_option = ("Font", "Text")
+    # ===== Edit Drop-down =====
+    edit_dropdown_var = tk.StringVar(navbar)
+    edit_options = ("Paste", "Paste and match style", "Find", "Find and Replace")
+    edit_dropdown_var.set("Edit")
+    edit_dropdown = tk.OptionMenu(navbar, edit_dropdown_var, *edit_options, command=lambda option: select_dropdown("Edit", option, edit_dropdown_var))
+    edit_dropdown.grid(row=0, column=1, padx=5, sticky="ew")
 
-    view_dropdown_option = ("Nothing In Here For Now")
+    # ===== Format Drop-down =====
+    format_dropdown_var = tk.StringVar(navbar)
+    format_options = ("Font", "Text")
+    format_dropdown_var.set("Format")
+    format_dropdown = tk.OptionMenu(navbar, format_dropdown_var, *format_options, command=lambda option: select_dropdown("Format", option, format_dropdown_var))
+    format_dropdown.grid(row=0, column=2, padx=5, sticky="ew")
 
-    window_dropdown_option = ("Zoom")
-    
-    # Make settings a button 
+    # ===== View Drop-down =====
+    view_dropdown_var = tk.StringVar(navbar)
+    view_options = ("Nothing In Here For Now",)  # Single option as a tuple
+    view_dropdown_var.set("View")
+    view_dropdown = tk.OptionMenu(navbar, view_dropdown_var, *view_options, command=lambda option: select_dropdown("View", option, view_dropdown_var))
+    view_dropdown.grid(row=0, column=3, padx=5, sticky="ew")
 
-    save_button = tk.Button(navbar, text="Save", command=lambda: savefile(window, text_edit))
-    open_button = tk.Button(navbar, text="Open", command=lambda: openfile(window, text_edit))
+    # ===== Window Drop-down =====
+    window_dropdown_var = tk.StringVar(navbar)
+    window_options = ("Zoom",)
+    window_dropdown_var.set("Window")
+    window_dropdown = tk.OptionMenu(navbar, window_dropdown_var, *window_options, command=lambda option: select_dropdown("Window", option, window_dropdown_var))
+    window_dropdown.grid(row=0, column=4, padx=5, sticky="ew")
 
-    save_button.grid(row=0, column=0, padx=5, sticky="ew")
-    open_button.grid(row=0, column=1, padx=5, sticky="ew")
-    file_dropdown_options.grid(row=0, column=2, padx=5, sticky="ew")
+    settings_button = tk.Button(navbar, text="Settings", command=lambda: settings())
+
+    settings_button.grid(row=0, column=6, padx=5, sticky="ew")
     navbar.grid(row=0, column=0, columnspan=2, sticky="ew")
 
     window.bind("<Control-s>", lambda x: savefile(window, text_edit))
