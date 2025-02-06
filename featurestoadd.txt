@@ -23,5 +23,6 @@ Top bar
   Settings
 
 Line numbers on the left
-
+Dont let it close without saving
+"Saving Protection"
 Vim Basic vim motions
