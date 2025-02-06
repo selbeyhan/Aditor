@@ -1,8 +1,10 @@
 {
     "config_file_path": "config.json",
-    "theme": "light",
+    "theme": "Light",
     "font": "Helvetica",
-    "font_size": 10,
+    "font_size": 18,
     "line_numbers": true,
-    "wrap": false
+    "nav_font_size": 13,
+    "nav_active_bg": "#FFFF00",
+    "nav_options_active_bg": "#40E0D0"
 }
