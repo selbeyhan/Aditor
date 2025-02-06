@@ -5,7 +5,8 @@ import os
 
 config_file_path = "config.json"
 default_config = {
-    "config_file_path" : "config.json", "theme": "light",
+    "config_file_path" : "config.json",
+    "theme": "light",
     "font" : "Helvetica",
     "font_size" : 18,
     "line_numbers": True,
@@ -17,6 +18,7 @@ def load_config():
         try:
             with open(default_config["config_file_path"], "r") as f:
                 config = json.load(f)
+            config = check_config_integrity(config) 
             return config
         except json.JSONDecodeError:
             return default_config
@@ -34,6 +36,12 @@ def save_config(config):
 def safe_exit(local, config):
     save_config(config)
     local.destroy()
+
+def check_config_integrity(config):
+    for option in default_config:
+        if not config[option]:
+            config[option] = default_config[option]
+    return config
 
 def openfile(window, text_edit):
     filepath = askopenfilename(filetypes=[("Text Files", "*.txt")])
@@ -74,11 +82,14 @@ def update_line_numbers(event=None):
     line_numbers.insert("1.0", numbers)
     line_numbers.config(state="disabled")
 
-def settings():
+def settings(config):
     settingsmenu = tk.Frame(window, bd=10)
     settingsmenu.grid(row=0, column=0, rowspan=2, columnspan=2, sticky="nesw")
 
-    close_button = tk.Button(settingsmenu, text="Close", command=lambda: safe_exit(settingsmenu)) 
+    save_button = tk.Button(settingsmenu, text="Save", command=lambda: safe_exit(settingsmenu, config)) 
+    close_button = tk.Button(settingsmenu, text="Close", command= lambda: settingsmenu.destroy()) 
+
+    save_button.pack()
     close_button.pack()
 
 
@@ -139,7 +150,7 @@ def main():
     window_dropdown.grid(row=0, column=4, padx=5, sticky="ew")
 
     # ----- Settings Button -----
-    settings_button = tk.Button(navbar, text="Settings", command=settings)
+    settings_button = tk.Button(navbar, text="Settings", command=lambda: settings(config))
     settings_button.grid(row=0, column=5, padx=5, sticky="ew")
 
 

@@ -2,7 +2,7 @@
     "config_file_path": "config.json",
     "theme": "light",
     "font": "Helvetica",
-    "font_size": 18,
+    "font_size": 10,
     "line_numbers": true,
     "wrap": false
 }
