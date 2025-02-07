@@ -123,19 +123,22 @@ def settings(window, config):
     settingsmenu.grid(row=0, column=0, rowspan=2, columnspan=2, sticky="nesw")
     settingsmenu.rowconfigure(10)
     settingsmenu.columnconfigure(1)
-    
+     
     theme_label_grid = (0, 0)
     theme_label = make_label(settingsmenu, "Theme: ", LABELWIDTH, LABELHEIGHT, PADX, PADY, *theme_label_grid, font=(config["font"], config["nav_font_size"])) 
     theme_options_grid = (theme_label_grid[0], 1)
     theme_options = ("Light", "Dark")
     theme_dropdown = make_dropdown(settingsmenu, config["theme"], theme_options, DROPDOWNWIDTH, DROPDOWNHEIGHT, PADX, PADY, *theme_options_grid, font=(config["font"], config["nav_font_size"]))
  
-    save_button = tk.Button(settingsmenu, text="Save", command=lambda: exit_settings(settingsmenu, config)) 
-    # save_button.pack()
-
+    # save_button = tk.Button(settingsmenu, text="Save", command=lambda: exit_settings(settingsmenu, config)) 
+    make_button(window, "Save", LABELWIDTH, LABELHEIGHT, PADX, PADY, 10, 2, font=(config["font"], config["nav_font_size"]), lambda: exit_settings(settingsmenu, config))
     close_button = tk.Button(settingsmenu, text="Close", command= lambda: settingsmenu.destroy()) 
     close_button.config(width=8, padx=5, font=(config["font"], config["nav_font_size"]), activebackground=config["nav_active_bg"])  
-    # close_button.pack()
+
+def make_button(window, text, width, height, padx, pady, row, column, font, command):
+    button = tk.Button(window, text=text, command=lambda: command)
+    button.config(width=width, height=height, padx=padx, pady=pady, font=font)
+    button.grid(row=row, column=column)
 
 def make_label(window, text, width, height, padx, pady, row, column, font):
     label = tk.Label(window, text=text, justify="right", anchor="e")
