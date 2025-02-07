@@ -36,7 +36,6 @@ def save_config(config):
         with open(default_config["config_file_path"], "w") as f:
             json.dump(config, f, indent=4)
 
-
 def check_config_integrity(config):
     for option in default_config:
         try:
@@ -121,8 +120,8 @@ def settings(window, config):
 
     settingsmenu = tk.Frame(window, bd=1)
     settingsmenu.grid(row=0, column=0, rowspan=2, columnspan=2, sticky="nesw")
-    settingsmenu.rowconfigure(10)
-    settingsmenu.columnconfigure(1)
+    # settingsmenu.rowconfigure(10)
+    # settingsmenu.columnconfigure(1)
      
     theme_label_grid = (0, 0)
     theme_label = make_label(settingsmenu, "Theme: ", LABELWIDTH, LABELHEIGHT, PADX, PADY, *theme_label_grid, font=(config["font"], config["nav_font_size"])) 
@@ -130,15 +129,15 @@ def settings(window, config):
     theme_options = ("Light", "Dark")
     theme_dropdown = make_dropdown(settingsmenu, config["theme"], theme_options, DROPDOWNWIDTH, DROPDOWNHEIGHT, PADX, PADY, *theme_options_grid, font=(config["font"], config["nav_font_size"]))
  
-    # save_button = tk.Button(settingsmenu, text="Save", command=lambda: exit_settings(settingsmenu, config)) 
-    make_button(window, "Save", LABELWIDTH, LABELHEIGHT, PADX, PADY, 10, 2, font=(config["font"], config["nav_font_size"]), lambda: exit_settings(settingsmenu, config))
+    make_button(settingsmenu, "Save", LABELWIDTH, LABELHEIGHT, PADX, PADY, "se", 9, 2, lambda: exit_settings(settingsmenu, config), font=(config["font"], config["nav_font_size"]))
+    make_button(settingsmenu, "Close", LABELWIDTH, LABELHEIGHT, PADX, PADY, "se", 10, 2, lambda: safe_exit(settingsmenu), font=(config["font"], config["nav_font_size"]))
     close_button = tk.Button(settingsmenu, text="Close", command= lambda: settingsmenu.destroy()) 
     close_button.config(width=8, padx=5, font=(config["font"], config["nav_font_size"]), activebackground=config["nav_active_bg"])  
 
-def make_button(window, text, width, height, padx, pady, row, column, font, command):
-    button = tk.Button(window, text=text, command=lambda: command)
+def make_button(window, text, width, height, padx, pady, anchor, row, column, command, font):
+    button = tk.Button(window, text=text, command=command)  # Remove extra lambda
     button.config(width=width, height=height, padx=padx, pady=pady, font=font)
-    button.grid(row=row, column=column)
+    button.grid(row=row, column=column, sticky=anchor)
 
 def make_label(window, text, width, height, padx, pady, row, column, font):
     label = tk.Label(window, text=text, justify="right", anchor="e")
